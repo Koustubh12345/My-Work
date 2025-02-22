@@ -6,6 +6,39 @@
     <title>Koustubh Gaikwad - Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
+        /* Loader Styles */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--primary);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* Reset & Base Styles */
         * {
             margin: 0;
@@ -131,6 +164,14 @@
             transform: translateY(-5px);
         }
 
+        /* Small DP Icon at Top Left */
+        .dp-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+
         /* Hero Section */
         #hero {
             min-height: 100vh;
@@ -146,6 +187,7 @@
             gap: 4rem;
             align-items: center;
         }
+
         .hero-text h1 {
             font-size: 4.5rem;
             background: var(--gradient);
@@ -180,6 +222,7 @@
         .hero-image {
             position: relative;
             perspective: 1000px;
+            text-align: center;
         }
 
         .hero-image img {
@@ -190,6 +233,25 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             opacity: 0;
             animation: fadeIn 0.8s 0.4s forwards;
+        }
+
+        /* Run Game Button */
+        .run-game-btn {
+            margin-top: 2rem;
+            background: var(--primary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s;
+            font-size: 1rem;
+            color: var(--light);
+            text-decoration: none;
+        }
+
+        .run-game-btn:hover {
+            transform: translateY(-5px);
         }
 
         /* About Section */
@@ -310,6 +372,7 @@
             flex-direction: column;
             gap: 2rem;
         }
+
         .menu-item {
             width: 40px;
             height: 40px;
@@ -325,14 +388,72 @@
             transform: scale(1.2) rotate(180deg);
             background: var(--primary);
         }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-text p {
+                font-size: 1.2rem;
+            }
+
+            .hero-image img {
+                max-width: 280px;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .tg-channel-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .holographic-menu {
+                display: none;
+            }
+
+            #about, #contact {
+                padding: 4rem 5%;
+            }
+
+            #about h2, #contact h2 {
+                font-size: 2rem;
+            }
+
+            #about p, #contact p {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Opening Animation -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <h2 style="color: var(--primary);">Opening Portfolio...</h2>
+        </div>
+    </div>
+
+    <!-- Rest of your HTML content -->
     <div class="custom-cursor"></div>
     <div class="gradient-bg"></div>
 
     <nav>
         <div class="container">
+            <img src="your-image.jpg" alt="DP" class="dp-icon">
             <h1 style="font-size: 2rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">My Portfolio</h1>
             <div class="nav-links">
                 <a href="#about">About</a>
@@ -366,6 +487,10 @@
                 </div>
                 <div class="hero-image">
                     <img src="your-image.jpg" alt="Profile">
+                    <a href="game.html" class="run-game-btn" target="_blank">
+                        <i class="fas fa-gamepad"></i>
+                        Run Game
+                    </a>
                 </div>
             </div>
         </div>
@@ -397,26 +522,36 @@
             <p style="font-size: 1.3rem;">Let's connect and create something extraordinary!</p>
             <div class="social-links">
                 <a href="https://www.instagram.com/koustubh.gaikwad22?igsh=MWs4MG4ycG14bXlrcQ==" target="_blank">
-                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-instagram" style="color: #E1306C;"></i>
                 </a>
                 <a href="https://t.me/getthefckoutofhere" target="_blank">
-                    <i class="fab fa-telegram-plane"></i>
+                    <i class="fab fa-telegram-plane" style="color: #0088cc;"></i>
                 </a>
             </div>
         </div>
     </section>
+
     <script>
+        // Loader Script
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 3000); // 3-second delay
+        });
+
         // Custom Cursor
         const cursor = document.querySelector('.custom-cursor');
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = ${e.clientX - 10}px;
-            cursor.style.top = ${e.clientY - 10}px;
+            cursor.style.left = `${e.clientX - 10}px`;
+            cursor.style.top = `${e.clientY - 10}px`;
             
-            // Create trail effect
             const trail = document.createElement('div');
             trail.className = 'cursor-trail';
-            trail.style.left = ${e.clientX - 3}px;
-            trail.style.top = ${e.clientY - 3}px;
+            trail.style.left = `${e.clientX - 3}px`;
+            trail.style.top = `${e.clientY - 3}px`;
             document.body.appendChild(trail);
             
             setTimeout(() => trail.remove(), 500);
@@ -435,7 +570,7 @@
 
         scrollReveal.forEach(element => observer.observe(element));
 
-        // Smooth Scroll
+   // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
