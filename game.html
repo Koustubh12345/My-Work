@@ -3,72 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dragon Runner</title>
+    <title>Neon Reflex</title>
     <style>
-        body {
+        * {
             margin: 0;
-            overflow: hidden;
-            background: #f7f7f7;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            font-family: Arial, sans-serif;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        h1 {
+            margin-top: 20px;
+            font-size: 32px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #00eaff;
+            text-shadow: 0 0 10px #00eaff, 0 0 20px #00c3ff;
+        }
+
+        .score {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid #00eaff;
+            color: #00eaff;
+            text-shadow: 0 0 5px #00c3ff;
         }
 
         .game-container {
             position: relative;
-            width: 600px;
-            height: 200px;
-            border: 2px solid #333;
-            background: #fff;
-            overflow: hidden;
+            width: 100vw;
+            height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .dragon {
+        .orb {
             position: absolute;
-            bottom: 0;
-            left: 50px;
-            width: 50px;
-            height: 50px;
-            background: url('https://i.imgur.com/wVhDiHx.png') no-repeat center/cover;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ff0077, #ff0055);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px #ff0077, 0 0 30px #ff0055;
+            animation: shrink 1.5s linear;
         }
 
-        .obstacle {
-            position: absolute;
-            bottom: 0;
-            right: -20px;
-            width: 30px;
-            height: 50px;
-            background: url('https://i.imgur.com/2zVqxRR.png') no-repeat center/cover;
-            animation: moveObstacle 2s linear infinite;
-        }
-
-        @keyframes moveObstacle {
+        @keyframes shrink {
             from {
-                right: -20px;
+                transform: scale(1);
+                opacity: 1;
             }
             to {
-                right: 600px;
+                transform: scale(0);
+                opacity: 0;
             }
-        }
-
-        .jump {
-            animation: jump 0.5s ease-in-out;
-        }
-
-        @keyframes jump {
-            0% { bottom: 0; }
-            50% { bottom: 70px; }
-            100% { bottom: 0; }
         }
 
         .game-over {
@@ -76,99 +77,129 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ff0000;
+            color: #ff4444;
+            text-shadow: 0 0 5px #ff2222;
             font-size: 24px;
-            color: red;
-            display: none;
         }
 
-        .controls {
-            margin-top: 15px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .jump-btn {
-            padding: 15px 30px;
+        .restart-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
             font-size: 18px;
-            background: #333;
-            color: #fff;
+            background: #00eaff;
+            color: black;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
         }
+
+        .restart-btn:hover {
+            background: #00c3ff;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 600px) {
+            .orb {
+                width: 60px;
+                height: 60px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            .score {
+                font-size: 16px;
+                padding: 8px 15px;
+            }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="title">デ|̷ 🆃🅴🅽🆂🅴🅸 Name</div>
-
-    <div class="game-container">
-        <div class="dragon" id="dragon"></div>
-        <div class="obstacle" id="obstacle"></div>
-        <div class="game-over" id="gameOver">Game Over! Tap to Restart</div>
-    </div>
-
-    <div class="controls">
-        <button class="jump-btn" onclick="jump()">Jump</button>
-    </div>
+    <h1>Neon Reflex</h1>
+    <div class="score">Score: <span id="score">0</span></div>
+    <div class="game-container" id="game-container"></div>
 
     <script>
-        const dragon = document.getElementById('dragon');
-        const obstacle = document.getElementById('obstacle');
-        const gameOverText = document.getElementById('gameOver');
-        let isJumping = false;
-        let gameOver = false;
+        let gameContainer = document.getElementById("game-container");
+        let scoreDisplay = document.getElementById("score");
+        let score = 0;
+        let spawnSpeed = 1500;
+        let gameActive = true;
 
-        // Function to make dragon jump
-        function jump() {
-            if (!isJumping && !gameOver) {
-                isJumping = true;
-                dragon.classList.add('jump');
-                setTimeout(() => {
-                    dragon.classList.remove('jump');
-                    isJumping = false;
-                }, 500);
-            }
+        function createOrb() {
+            if (!gameActive) return;
+
+            let orb = document.createElement("div");
+            orb.classList.add("orb");
+
+            let maxX = gameContainer.clientWidth - 80;
+            let maxY = gameContainer.clientHeight - 80;
+            let randomX = Math.random() * maxX;
+            let randomY = Math.random() * maxY;
+
+            orb.style.left = `${randomX}px`;
+            orb.style.top = `${randomY}px`;
+
+            gameContainer.appendChild(orb);
+
+            let timeout = setTimeout(() => {
+                if (gameContainer.contains(orb)) {
+                    endGame();
+                }
+            }, spawnSpeed);
+
+            orb.addEventListener("click", () => {
+                if (!gameActive) return;
+                score++;
+                scoreDisplay.textContent = score;
+                clearTimeout(timeout);
+                orb.remove();
+                increaseDifficulty();
+            });
+
+            setTimeout(() => {
+                if (gameContainer.contains(orb)) {
+                    orb.remove();
+                }
+            }, spawnSpeed);
         }
 
-        // Event Listener for PC (Spacebar)
-        document.addEventListener('keydown', (event) => {
-            if (event.code === 'Space' && !gameOver) {
-                jump();
-            }
-            if (event.code === 'Space' && gameOver) {
-                resetGame();
-            }
-        });
-
-        // Mobile Tap to Restart
-        document.addEventListener('click', () => {
-            if (gameOver) {
-                resetGame();
-            }
-        });
-
-        // Collision Detection
-        const checkCollision = setInterval(() => {
-            const dragonBottom = parseInt(window.getComputedStyle(dragon).getPropertyValue('bottom'));
-            const obstacleLeft = obstacle.getBoundingClientRect().left;
-            const dragonLeft = dragon.getBoundingClientRect().left;
-
-            if (obstacleLeft > dragonLeft && obstacleLeft < dragonLeft + 50 && dragonBottom <= 50) {
-                gameOver = true;
-                gameOverText.style.display = 'block';
-                obstacle.style.animation = 'none';
-            }
-        }, 10);
-
-        // Reset Game
-        function resetGame() {
-            gameOver = false;
-            gameOverText.style.display = 'none';
-            obstacle.style.animation = 'none';
-            obstacle.offsetHeight; // Force reflow
-            obstacle.style.animation = 'moveObstacle 2s linear infinite';
+        function increaseDifficulty() {
+            spawnSpeed = Math.max(600, spawnSpeed * 0.93);
+            clearInterval(spawnInterval);
+            spawnInterval = setInterval(createOrb, spawnSpeed);
         }
+
+        function endGame() {
+            gameActive = false;
+            gameContainer.innerHTML = `
+                <div class="game-over">
+                    <h2>Game Over!</h2>
+                    <p>Your Score: ${score}</p>
+                    <button class="restart-btn" onclick="restartGame()">Restart</button>
+                </div>
+            `;
+        }
+
+        function restartGame() {
+            score = 0;
+            scoreDisplay.textContent = score;
+            spawnSpeed = 1500;
+            gameActive = true;
+            gameContainer.innerHTML = "";
+            clearInterval(spawnInterval);
+            spawnInterval = setInterval(createOrb, spawnSpeed);
+        }
+
+        let spawnInterval = setInterval(createOrb, spawnSpeed);
     </script>
+
 </body>
 </html>
