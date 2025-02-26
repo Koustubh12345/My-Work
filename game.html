@@ -3,17 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dino Game</title>
+    <title>Dragon Runner</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
             background: #f7f7f7;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             font-family: Arial, sans-serif;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
         }
 
         .game-container {
@@ -25,22 +33,22 @@
             overflow: hidden;
         }
 
-        .dino {
+        .dragon {
             position: absolute;
             bottom: 0;
             left: 50px;
-            width: 40px;
-            height: 40px;
-            background: #333;
+            width: 50px;
+            height: 50px;
+            background: url('https://i.imgur.com/wVhDiHx.png') no-repeat center/cover;
         }
 
         .obstacle {
             position: absolute;
             bottom: 0;
             right: -20px;
-            width: 20px;
-            height: 40px;
-            background: #333;
+            width: 30px;
+            height: 50px;
+            background: url('https://i.imgur.com/2zVqxRR.png') no-repeat center/cover;
             animation: moveObstacle 2s linear infinite;
         }
 
@@ -58,15 +66,9 @@
         }
 
         @keyframes jump {
-            0% {
-                bottom: 0;
-            }
-            50% {
-                bottom: 60px;
-            }
-            100% {
-                bottom: 0;
-            }
+            0% { bottom: 0; }
+            50% { bottom: 70px; }
+            100% { bottom: 0; }
         }
 
         .game-over {
@@ -78,46 +80,81 @@
             color: red;
             display: none;
         }
+
+        .controls {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .jump-btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+
+    <div class="title">デ|̷ 🆃🅴🅽🆂🅴🅸 Name</div>
+
     <div class="game-container">
-        <div class="dino" id="dino"></div>
+        <div class="dragon" id="dragon"></div>
         <div class="obstacle" id="obstacle"></div>
-        <div class="game-over" id="gameOver">Game Over! Press Space to Restart</div>
+        <div class="game-over" id="gameOver">Game Over! Tap to Restart</div>
+    </div>
+
+    <div class="controls">
+        <button class="jump-btn" onclick="jump()">Jump</button>
     </div>
 
     <script>
-        const dino = document.getElementById('dino');
+        const dragon = document.getElementById('dragon');
         const obstacle = document.getElementById('obstacle');
         const gameOverText = document.getElementById('gameOver');
         let isJumping = false;
         let gameOver = false;
 
-        // Dino Jump
-        document.addEventListener('keydown', (event) => {
-            if (event.code === 'Space' && !isJumping && !gameOver) {
+        // Function to make dragon jump
+        function jump() {
+            if (!isJumping && !gameOver) {
                 isJumping = true;
-                dino.classList.add('jump');
+                dragon.classList.add('jump');
                 setTimeout(() => {
-                    dino.classList.remove('jump');
+                    dragon.classList.remove('jump');
                     isJumping = false;
                 }, 500);
             }
+        }
 
-            // Restart game on Space key press
+        // Event Listener for PC (Spacebar)
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space' && !gameOver) {
+                jump();
+            }
             if (event.code === 'Space' && gameOver) {
+                resetGame();
+            }
+        });
+
+        // Mobile Tap to Restart
+        document.addEventListener('click', () => {
+            if (gameOver) {
                 resetGame();
             }
         });
 
         // Collision Detection
         const checkCollision = setInterval(() => {
-            const dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue('bottom'));
+            const dragonBottom = parseInt(window.getComputedStyle(dragon).getPropertyValue('bottom'));
             const obstacleLeft = obstacle.getBoundingClientRect().left;
-            const dinoLeft = dino.getBoundingClientRect().left;
+            const dragonLeft = dragon.getBoundingClientRect().left;
 
-            if (obstacleLeft > dinoLeft && obstacleLeft < dinoLeft + 40 && dinoBottom <= 40) {
+            if (obstacleLeft > dragonLeft && obstacleLeft < dragonLeft + 50 && dragonBottom <= 50) {
                 gameOver = true;
                 gameOverText.style.display = 'block';
                 obstacle.style.animation = 'none';
@@ -129,7 +166,7 @@
             gameOver = false;
             gameOverText.style.display = 'none';
             obstacle.style.animation = 'none';
-            obstacle.offsetHeight; // Trigger reflow
+            obstacle.offsetHeight; // Force reflow
             obstacle.style.animation = 'moveObstacle 2s linear infinite';
         }
     </script>
