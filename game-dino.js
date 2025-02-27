@@ -1,18 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const dino = document.querySelector(".dino");
-    const cactus = document.querySelector(".kaktus");
-    const startButton = document.querySelector("button");
+    const dino = document.getElementById("dino");
+    const cactus = document.getElementById("cactus");
+    const startButton = document.getElementById("startButton");
     let isJumping = false;
-    let gameRunning = false;
+    let isGameOver = false;
 
-    // Function to make the dinosaur jump
     function jump() {
-        if (isJumping) return;
+        if (isJumping || isGameOver) return;
         isJumping = true;
 
         let position = 0;
         let upInterval = setInterval(() => {
-            if (position >= 150) {  // Jump height limit
+            if (position >= 150) {
                 clearInterval(upInterval);
                 let downInterval = setInterval(() => {
                     if (position <= 0) {
@@ -28,42 +27,43 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 20);
     }
 
-    // Function to move the cactus
     function moveCactus() {
-        let cactusPosition = 600; // Start position
-        cactus.style.left = cactusPosition + "px";
+        let cactusPosition = 600;
+        cactus.style.right = cactusPosition + "px";
 
-        let cactusInterval = setInterval(() => {
+        let moveInterval = setInterval(() => {
             if (cactusPosition <= 0) {
-                cactusPosition = 600; // Reset position
+                cactusPosition = 600;
             }
 
-            if (cactusPosition > 20 && cactusPosition < 50 && parseInt(dino.style.bottom) < 30) {
-                clearInterval(cactusInterval);
-                alert("Game Over! Try again.");
-                gameRunning = false;
-                startButton.style.display = "block"; // Show start button again
+            if (cactusPosition < 80 && cactusPosition > 30 && parseInt(dino.style.bottom) < 30) {
+                clearInterval(moveInterval);
+                alert("Game Over! Try Again.");
+                isGameOver = true;
+                startButton.style.display = "block";
                 return;
             }
 
             cactusPosition -= 5;
-            cactus.style.left = cactusPosition + "px";
+            cactus.style.right = cactusPosition + "px";
         }, 20);
     }
 
-    // Start Game Function
     function startGame() {
-        if (gameRunning) return;
-        gameRunning = true;
-        startButton.style.display = "none"; // Hide button
+        if (isGameOver) {
+            isGameOver = false;
+            dino.style.bottom = "0px";
+        }
+        startButton.style.display = "none";
         moveCactus();
     }
 
-    // Event Listeners
     startButton.addEventListener("click", startGame);
     document.addEventListener("keydown", (event) => {
-        if (event.code === "Space") {
-            jump();
-        }
+        if (event.code === "Space") jump();
+    });
+
+    document.addEventListener("touchstart", () => {
+        jump();
     });
 });
