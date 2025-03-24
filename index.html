@@ -31,7 +31,6 @@
             overflow-x: hidden;
         }
 
-        /* Glow effect */
         .glow {
             text-shadow: 0 0 10px currentColor;
         }
@@ -190,6 +189,16 @@
             -webkit-text-fill-color: transparent;
         }
 
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -304,6 +313,114 @@
         .secondary-link:hover {
             background: rgba(255, 255, 255, 0.05);
             transform: translateY(-3px);
+        }
+
+        /* ROM Work Section */
+        #rom-work {
+            padding: 8rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .phone-gallery {
+            display: flex;
+            justify-content: center;
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .phone-frame {
+            position: relative;
+            width: 300px;
+            height: 600px;
+            background: #111;
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 10px solid #222;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .screen-content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .screen-content.active {
+            opacity: 1;
+        }
+
+        .screen-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .phone-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .phone-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .phone-dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+
+        .phone-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .phone-arrow:hover {
+            background: var(--primary);
+        }
+
+        .phone-arrow.left {
+            left: -60px;
+        }
+
+        .phone-arrow.right {
+            right: -60px;
         }
 
         /* Contact Section */
@@ -422,6 +539,14 @@
             .hero-image {
                 order: -1;
             }
+
+            .phone-arrow.left {
+                left: 10px;
+            }
+
+            .phone-arrow.right {
+                right: 10px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -452,6 +577,11 @@
             .social-links {
                 flex-wrap: wrap;
             }
+
+            .phone-frame {
+                width: 250px;
+                height: 500px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -465,6 +595,14 @@
 
             .project-card {
                 padding: 1.5rem;
+            }
+
+            .phone-frame {
+                width: 200px;
+                height: 400px;
+                border-radius: 30px;
+                padding: 10px;
+                border-width: 8px;
             }
         }
     </style>
@@ -483,8 +621,8 @@
         <div class="nav-links">
             <a href="#about">About</a>
             <a href="#projects">Projects</a>
+            <a href="#rom-work">ROM Work</a>
             <a href="#contact">Contact</a>
-            <a href="https://t.me/GettheFuckoutofhear" target="_blank">Telegram</a>
         </div>
     </nav>
 
@@ -579,6 +717,42 @@
         </div>
     </section>
 
+    <!-- ROM Work Section -->
+    <section id="rom-work">
+        <h2 class="section-title">ColorOS Port for Sweet</h2>
+        <p class="section-subtitle">Custom ROM Development & Modifications</p>
+        
+        <div class="phone-gallery">
+            <div class="phone-arrow left">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            
+            <div class="phone-frame">
+                <div class="phone-screen">
+                    <div class="screen-content active" data-index="0">
+                        <img src="IMG_20250324_173904_086.jpg" alt="About Device">
+                    </div>
+                    <div class="screen-content" data-index="1">
+                        <img src="IMG_20250324_173904_426.jpg" alt="Settings">
+                    </div>
+                    <div class="screen-content" data-index="2">
+                        <img src="IMG_20250324_173903_864.jpg" alt="OxygenOS Mods">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="phone-arrow right">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+        
+        <div class="phone-nav">
+            <div class="phone-dot active" data-index="0"></div>
+            <div class="phone-dot" data-index="1"></div>
+            <div class="phone-dot" data-index="2"></div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact">
         <h2 class="section-title">Get In Touch</h2>
@@ -619,7 +793,7 @@
 
         // Animation on scroll
         const animateOnScroll = () => {
-            const elements = document.querySelectorAll('.project-card, .about-content > div');
+            const elements = document.querySelectorAll('.project-card, .about-content > div, #rom-work');
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -638,8 +812,73 @@
             });
         };
 
+        // Phone gallery navigation
+        const phoneGallery = () => {
+            const contents = document.querySelectorAll('.screen-content');
+            const dots = document.querySelectorAll('.phone-dot');
+            const prevBtn = document.querySelector('.phone-arrow.left');
+            const nextBtn = document.querySelector('.phone-arrow.right');
+            let currentIndex = 0;
+
+            const showSlide = (index) => {
+                contents.forEach(content => content.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                contents[index].classList.add('active');
+                dots[index].classList.add('active');
+                currentIndex = index;
+            };
+
+            const nextSlide = () => {
+                let newIndex = (currentIndex + 1) % contents.length;
+                showSlide(newIndex);
+            };
+
+            const prevSlide = () => {
+                let newIndex = (currentIndex - 1 + contents.length) % contents.length;
+                showSlide(newIndex);
+            };
+
+            // Auto-rotate slides
+            let slideInterval = setInterval(nextSlide, 3000);
+
+            // Pause on hover
+            const phoneFrame = document.querySelector('.phone-frame');
+            phoneFrame.addEventListener('mouseenter', () => {
+                clearInterval(slideInterval);
+            });
+
+            phoneFrame.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(nextSlide, 3000);
+            });
+
+            // Button controls
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            // Dot controls
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const index = parseInt(dot.getAttribute('data-index'));
+                    showSlide(index);
+                });
+            });
+
+            // Keyboard controls
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') {
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                }
+            });
+        };
+
         // Run animations when page loads
-        window.addEventListener('load', animateOnScroll);
+        window.addEventListener('load', () => {
+            animateOnScroll();
+            phoneGallery();
+        });
     </script>
 </body>
-        </html>
+    </html>
