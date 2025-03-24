@@ -61,6 +61,13 @@
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
+            border: 2px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo:hover img {
+            transform: rotate(15deg);
+            box-shadow: 0 0 15px var(--primary);
         }
 
         .nav-logo h1 {
@@ -157,26 +164,45 @@
         }
 
         .hero-image img {
-            width: 100%;
-            max-width: 400px;
+            width: 70%; /* Reduced by 30% */
+            max-width: 280px; /* Adjusted from 400px */
             border-radius: 20px;
             box-shadow: 0 20px 50px rgba(127, 90, 240, 0.2);
-            transition: transform 0.5s ease;
+            transition: all 0.5s ease;
+            border: 3px solid var(--primary);
         }
 
         .hero-image:hover img {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 25px 60px rgba(127, 90, 240, 0.3);
+        }
+
+        /* Color Bar Section */
+        #color-bar {
+            height: 8px;
+            background: linear-gradient(90deg, 
+                #7f5af0, 
+                #2cb67d, 
+                #d946ef, 
+                #7f5af0);
+            background-size: 300% 100%;
+            animation: gradient 8s linear infinite;
+            margin: 0 5%;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(127, 90, 240, 0.5);
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         /* About Section */
         #about {
             padding: 8rem 5%;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 30px;
-            margin: 5rem auto;
             max-width: 1200px;
+            margin: 5rem auto;
         }
 
         .section-title {
@@ -187,6 +213,7 @@
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(127, 90, 240, 0.3);
         }
 
         .section-subtitle {
@@ -210,6 +237,7 @@
             font-size: 1.1rem;
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 1.5rem;
+            line-height: 1.8;
         }
 
         .skills {
@@ -233,60 +261,88 @@
         .skill-tag:hover {
             background: rgba(127, 90, 240, 0.3);
             transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(127, 90, 240, 0.2);
         }
 
-        /* Projects Section */
-        #projects {
+        /* Work Section */
+        #work {
             padding: 8rem 5%;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        .projects-grid {
+        .work-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
 
-        .project-card {
+        .work-card {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 2rem;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .project-card:hover {
+        .work-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(127, 90, 240, 0.1), rgba(44, 182, 125, 0.1));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .work-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(127, 90, 240, 0.2);
+            box-shadow: 0 15px 40px rgba(127, 90, 240, 0.3);
             border-color: rgba(127, 90, 240, 0.3);
         }
 
-        .project-card h3 {
+        .work-card:hover::before {
+            opacity: 1;
+        }
+
+        .work-card h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
         }
 
-        .project-card p {
+        .work-card h3 i {
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+
+        .work-card p {
             color: rgba(255, 255, 255, 0.7);
             margin-bottom: 1.5rem;
             font-size: 0.95rem;
         }
 
-        .project-links {
+        .work-links {
             display: flex;
             gap: 1rem;
         }
 
-        .project-link {
+        .work-link {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 30px;
             font-size: 0.9rem;
             font-weight: 500;
@@ -302,6 +358,7 @@
         .primary-link:hover {
             background: rgba(127, 90, 240, 0.8);
             transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(127, 90, 240, 0.3);
         }
 
         .secondary-link {
@@ -313,6 +370,7 @@
         .secondary-link:hover {
             background: rgba(255, 255, 255, 0.05);
             transform: translateY(-3px);
+            border-color: var(--primary);
         }
 
         /* ROM Work Section */
@@ -321,24 +379,46 @@
             max-width: 1200px;
             margin: 0 auto;
             text-align: center;
+            position: relative;
         }
 
-        .phone-gallery {
-            display: flex;
-            justify-content: center;
-            margin-top: 4rem;
+        .rom-work-header {
+            margin-bottom: 3rem;
+        }
+
+        .rom-work-header h2 {
+            font-size: 2.8rem;
+            background: linear-gradient(90deg, #7f5af0, #2cb67d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(127, 90, 240, 0.3);
+        }
+
+        .rom-work-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .phone-gallery-container {
             position: relative;
+            padding: 0 60px;
         }
 
         .phone-frame {
             position: relative;
-            width: 300px;
-            height: 600px;
-            background: #111;
+            width: 280px;
+            height: 560px;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
             border-radius: 40px;
             padding: 15px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6),
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
             border: 10px solid #222;
+            margin: 0 auto;
+            overflow: hidden;
         }
 
         .phone-screen {
@@ -348,6 +428,7 @@
             border-radius: 25px;
             overflow: hidden;
             position: relative;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
         }
 
         .screen-content {
@@ -357,70 +438,128 @@
             top: 0;
             left: 0;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: all 0.6s cubic-bezier(0.65, 0, 0.35, 1);
             background: #000;
             display: flex;
             align-items: center;
             justify-content: center;
+            transform: scale(0.95);
+            filter: brightness(0.9);
         }
 
         .screen-content.active {
             opacity: 1;
+            transform: scale(1);
+            filter: brightness(1);
         }
 
         .screen-content img {
-            width: 100%;
-            height: 100%;
+            width: 90%;
+            height: 90%;
             object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
 
+        /* Enhanced Navigation */
         .phone-nav {
             display: flex;
             justify-content: center;
-            margin-top: 2rem;
+            margin-top: 2.5rem;
             gap: 1rem;
         }
 
         .phone-dot {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phone-dot::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.3s ease;
+        }
+
+        .phone-dot.active::after {
+            transform: scale(1);
         }
 
         .phone-dot.active {
-            background: var(--primary);
             transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(127, 90, 240, 0.5);
         }
 
+        /* Enhanced Arrows */
         .phone-arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
+            width: 50px;
+            height: 50px;
+            background: rgba(30, 30, 30, 0.7);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .phone-arrow i {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
         }
 
         .phone-arrow:hover {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 0 20px rgba(127, 90, 240, 0.5);
+        }
+
+        .phone-arrow:hover i {
+            color: white;
         }
 
         .phone-arrow.left {
-            left: -60px;
+            left: 0;
         }
 
         .phone-arrow.right {
-            right: -60px;
+            right: 0;
+        }
+
+        /* Reflection Effect */
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30%;
+            background: linear-gradient(to bottom, 
+                          rgba(255, 255, 255, 0.1), 
+                          rgba(255, 255, 255, 0));
+            border-radius: 40px 40px 0 0;
+            pointer-events: none;
+            z-index: 2;
         }
 
         /* Contact Section */
@@ -437,7 +576,7 @@
 
         .contact-content p {
             font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.7);
             margin-bottom: 3rem;
             max-width: 700px;
             margin-left: auto;
@@ -570,7 +709,7 @@
                 font-size: 2rem;
             }
 
-            .projects-grid {
+            .work-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -593,7 +732,7 @@
                 font-size: 2rem;
             }
 
-            .project-card {
+            .work-card {
                 padding: 1.5rem;
             }
 
@@ -620,7 +759,7 @@
         </div>
         <div class="nav-links">
             <a href="#about">About</a>
-            <a href="#projects">Projects</a>
+            <a href="#work">Work</a>
             <a href="#rom-work">ROM Work</a>
             <a href="#contact">Contact</a>
         </div>
@@ -648,6 +787,9 @@
         </div>
     </section>
 
+    <!-- Color Bar -->
+    <div id="color-bar"></div>
+
     <!-- About Section -->
     <section id="about">
         <h2 class="section-title">About Me</h2>
@@ -674,43 +816,45 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects">
-        <h2 class="section-title">My Projects</h2>
-        <div class="projects-grid">
-            <div class="project-card">
-                <h3>Tensei Game</h3>
+    <!-- Work Section -->
+    <section id="work">
+        <h2 class="section-title">My Work</h2>
+        <p class="section-subtitle">Here are some of my recent projects and contributions</p>
+        
+        <div class="work-grid">
+            <div class="work-card">
+                <h3><i class="fas fa-gamepad"></i> Tensei Game</h3>
                 <p>An immersive gaming experience built with modern web technologies featuring stunning visuals and smooth gameplay mechanics.</p>
-                <div class="project-links">
-                    <a href="game.html" class="project-link primary-link" target="_blank">
-                        <i class="fas fa-gamepad"></i> Play Game
+                <div class="work-links">
+                    <a href="game.html" class="work-link primary-link" target="_blank">
+                        <i class="fas fa-play"></i> Play Now
                     </a>
-                    <a href="#" class="project-link secondary-link">
+                    <a href="#" class="work-link secondary-link">
                         <i class="fas fa-code"></i> View Code
                     </a>
                 </div>
             </div>
-            <div class="project-card">
-                <h3>Custom ROM Development</h3>
+            <div class="work-card">
+                <h3><i class="fas fa-mobile-alt"></i> Custom ROM Development</h3>
                 <p>A custom Android ROM with optimized performance, enhanced privacy features, and a sleek UI designed for power users.</p>
-                <div class="project-links">
-                    <a href="#" class="project-link primary-link">
+                <div class="work-links">
+                    <a href="#" class="work-link primary-link">
                         <i class="fas fa-download"></i> Download
                     </a>
-                    <a href="#" class="project-link secondary-link">
-                        <i class="fas fa-code"></i> View Code
+                    <a href="#" class="work-link secondary-link">
+                        <i class="fas fa-code"></i> Source Code
                     </a>
                 </div>
             </div>
-            <div class="project-card">
-                <h3>Web Dashboard</h3>
+            <div class="work-card">
+                <h3><i class="fas fa-tachometer-alt"></i> Web Dashboard</h3>
                 <p>A comprehensive admin dashboard with real-time analytics, user management, and customizable widgets for business applications.</p>
-                <div class="project-links">
-                    <a href="#" class="project-link primary-link">
+                <div class="work-links">
+                    <a href="#" class="work-link primary-link">
                         <i class="fas fa-external-link-alt"></i> Live Demo
                     </a>
-                    <a href="#" class="project-link secondary-link">
-                        <i class="fas fa-code"></i> View Code
+                    <a href="#" class="work-link secondary-link">
+                        <i class="fas fa-code"></i> GitHub
                     </a>
                 </div>
             </div>
@@ -719,10 +863,12 @@
 
     <!-- ROM Work Section -->
     <section id="rom-work">
-        <h2 class="section-title">ColorOS Port for Sweet</h2>
-        <p class="section-subtitle">Custom ROM Development & Modifications</p>
+        <div class="rom-work-header">
+            <h2>ColorOS Port for Sweet</h2>
+            <p>Custom Android ROM with enhanced features and optimized performance</p>
+        </div>
         
-        <div class="phone-gallery">
+        <div class="phone-gallery-container">
             <div class="phone-arrow left">
                 <i class="fas fa-chevron-left"></i>
             </div>
@@ -793,7 +939,7 @@
 
         // Animation on scroll
         const animateOnScroll = () => {
-            const elements = document.querySelectorAll('.project-card, .about-content > div, #rom-work');
+            const elements = document.querySelectorAll('.work-card, .about-content > div, #rom-work');
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -819,14 +965,25 @@
             const prevBtn = document.querySelector('.phone-arrow.left');
             const nextBtn = document.querySelector('.phone-arrow.right');
             let currentIndex = 0;
+            let isAnimating = false;
 
             const showSlide = (index) => {
-                contents.forEach(content => content.classList.remove('active'));
-                dots.forEach(dot => dot.classList.remove('active'));
+                if (isAnimating) return;
+                isAnimating = true;
                 
+                // Hide current slide
+                contents[currentIndex].classList.remove('active');
+                dots[currentIndex].classList.remove('active');
+                
+                // Show new slide
                 contents[index].classList.add('active');
                 dots[index].classList.add('active');
                 currentIndex = index;
+                
+                // Reset animation lock after transition ends
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 600);
             };
 
             const nextSlide = () => {
@@ -839,8 +996,10 @@
                 showSlide(newIndex);
             };
 
-            // Auto-rotate slides
-            let slideInterval = setInterval(nextSlide, 3000);
+            // Auto-rotate slides with smoother transition
+            let slideInterval = setInterval(() => {
+                if (!document.hidden) nextSlide();
+            }, 4000);
 
             // Pause on hover
             const phoneFrame = document.querySelector('.phone-frame');
@@ -849,27 +1008,54 @@
             });
 
             phoneFrame.addEventListener('mouseleave', () => {
-                slideInterval = setInterval(nextSlide, 3000);
+                slideInterval = setInterval(() => {
+                    if (!document.hidden) nextSlide();
+                }, 4000);
             });
 
             // Button controls
-            nextBtn.addEventListener('click', nextSlide);
-            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', () => {
+                clearInterval(slideInterval);
+                nextSlide();
+                slideInterval = setInterval(() => {
+                    if (!document.hidden) nextSlide();
+                }, 4000);
+            });
+
+            prevBtn.addEventListener('click', () => {
+                clearInterval(slideInterval);
+                prevSlide();
+                slideInterval = setInterval(() => {
+                    if (!document.hidden) nextSlide();
+                }, 4000);
+            });
 
             // Dot controls
             dots.forEach(dot => {
                 dot.addEventListener('click', () => {
                     const index = parseInt(dot.getAttribute('data-index'));
+                    clearInterval(slideInterval);
                     showSlide(index);
+                    slideInterval = setInterval(() => {
+                        if (!document.hidden) nextSlide();
+                    }, 4000);
                 });
             });
 
             // Keyboard controls
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowRight') {
+                    clearInterval(slideInterval);
                     nextSlide();
+                    slideInterval = setInterval(() => {
+                        if (!document.hidden) nextSlide();
+                    }, 4000);
                 } else if (e.key === 'ArrowLeft') {
+                    clearInterval(slideInterval);
                     prevSlide();
+                    slideInterval = setInterval(() => {
+                        if (!document.hidden) nextSlide();
+                    }, 4000);
                 }
             });
         };
